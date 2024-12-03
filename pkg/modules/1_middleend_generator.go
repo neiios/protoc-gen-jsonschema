@@ -341,6 +341,8 @@ func buildFromWellKnownField(field pgs.Field, fo *proto.FieldOptions) *jsonschem
 		schema.Type = "object"
 	case WellKnownTypeNullValue:
 		schema.Type = "null"
+	case WellKnownTypeStringValue:
+		schema.Type = "string"
 	}
 
 	if field.Type().IsRepeated() {
@@ -348,7 +350,6 @@ func buildFromWellKnownField(field pgs.Field, fo *proto.FieldOptions) *jsonschem
 	} else {
 		return schema
 	}
-	return schema
 }
 
 func isWellKnownField(field pgs.Field) bool {
@@ -363,6 +364,7 @@ const (
 	WellKnownTypeDuration
 	WellKnownTypeAny
 	WellKnownTypeNullValue
+	WellKnownTypeStringValue
 )
 
 func getWellKnownFieldType(field pgs.Field) WellKnownFieldType {
@@ -385,6 +387,8 @@ func getWellKnownFieldType(field pgs.Field) WellKnownFieldType {
 		return WellKnownTypeAny
 	case ".google.protobuf.NullValue":
 		return WellKnownTypeNullValue
+	case ".google.protobuf.StringValue":
+		return WellKnownTypeStringValue
 	default:
 		return WellKnownTypeNone
 	}
